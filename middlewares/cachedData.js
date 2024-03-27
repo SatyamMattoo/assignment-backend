@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { createRedisInstance } from "../utils/redis.js";
 
-const prisma = new PrismaClient();
-const redisClient = createRedisInstance();
 
 export const cacheMiddleware = async (req, res, next) => {
+  const redisClient = createRedisInstance();
   try {
     const cacheKey = `allSubmissions`;
     const cachedData = await redisClient.get(cacheKey);

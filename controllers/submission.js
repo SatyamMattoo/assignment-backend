@@ -4,12 +4,10 @@ import { PrismaClient } from "@prisma/client";
 import { submissionSchema } from "../schemas/submissionSchema.js";
 import { createRedisInstance } from "../utils/redis.js";
 
-const prisma = new PrismaClient();
-const redisClient = createRedisInstance();
-
 export const postSubmission = async (req, res) => {
   const { username, codeLanguage, sourceCode, stdIn, stdOut } = req.body.data;
-
+  const prisma = new PrismaClient();
+  const redisClient = createRedisInstance();
   try {
     // Check if the user already exists
     const submissionData = submissionSchema.parse({
@@ -63,6 +61,8 @@ export const postSubmission = async (req, res) => {
 };
 
 export const getSubmission = async (req, res) => {
+  const prisma = new PrismaClient();
+  const redisClient = createRedisInstance();
   try {
     const allSubmissions = await prisma.submission.findMany({
       include: { user: true },
